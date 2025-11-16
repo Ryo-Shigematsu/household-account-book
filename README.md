@@ -1,6 +1,6 @@
 # Household Account Book
 
-シンプルで透明性のある家計簿アプリ。  
+シンプルで透明性のある家計簿アプリ。
 CI/CDと型安全な開発プロセスを採用し、ポートフォリオとして「開発プロセスの見える化」を重視しています。
 
 ---
@@ -23,10 +23,10 @@ CI/CDと型安全な開発プロセスを採用し、ポートフォリオとし
 
 ## 📘 開発プロセスの特徴
 
-- GitHub Issues を活用してタスクを管理  
-- CI/CD による自動品質チェック（Lint + 型チェック）  
-- ESLint v9 の Flat Config に対応済み  
-- プロセスを透明化し、ポートフォリオとしての説得力を強化  
+- GitHub Issues を活用してタスクを管理
+- CI/CD による自動品質チェック（Lint + 型チェック）
+- ESLint v9 の Flat Config に対応済み
+- プロセスを透明化し、ポートフォリオとしての説得力を強化
 
 ---
 
@@ -45,4 +45,3 @@ npm run lint
 # 型チェック実行
 npm run type-check
 ```
-# household-account-book
