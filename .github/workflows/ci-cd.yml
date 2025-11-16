@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-    name: Build & Lint
     runs-on: ubuntu-latest
 
     steps:
@@ -18,19 +17,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 'lts/*'
-          cache: 'npm'
+          node-version: 20
 
       - name: Install dependencies
         run: npm install
 
-      - name: Type check
-        run: npm run type-check
-
-      - name: Lint
+      - name: Run lint
         run: npm run lint
 
-      - name: Tests (skipped)
-        if: false
-        run: |
-          echo "No test script configured or intentionally skipped."
+      - name: Run type-check
+        run: npm run type-check
