@@ -1,0 +1,56 @@
+// prisma/schema.prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum CategoryType {
+  income
+  expense
+}
+
+model User {
+  id           String        @id @db.Uuid
+  name         String?
+  email        String?       @unique
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  deletedAt    DateTime?
+  categories   Category[]
+  transactions Transaction[]
+}
+
+model Category {
+  id           Int           @id @default(autoincrement())
+  name         String
+  type         CategoryType
+  userId       String        @db.Uuid
+  user         User          @relation(fields: [userId], references: [id])
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  deletedAt    DateTime?
+  transactions Transaction[]
+
+  @@index([userId])
+}
+
+model Transaction {
+  id           Int           @id @default(autoincrement())
+  userId       String        @db.Uuid
+  user         User          @relation(fields: [userId], references: [id])
+  categoryId   Int?
+  category     Category?     @relation(fields: [categoryId], references: [id])
+  amount       Int
+  memo         String?
+  date         DateTime
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  deletedAt    DateTime?
+
+  @@index([userId, date])
+  @@index([categoryId])
+}
