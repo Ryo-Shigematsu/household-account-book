@@ -10,6 +10,7 @@
 - [Supabase へのマイグレーション適用](#supabase-へのマイグレーション適用)
 - [Shadow Database について](#shadow-database-について)
 - [トラブルシューティング](#トラブルシューティング)
+- [スキーマ設計に関する注意事項](#スキーマ設計に関する注意事項)
 
 ---
 
@@ -273,6 +274,43 @@ Shadow Database の設定が正しくないか、権限がない可能性があ�
 - [Prisma Migrate](https://www.prisma.io/docs/concepts/components/prisma-migrate)
 - [Supabase 公式ドキュメント](https://supabase.com/docs)
 - [Supabase と Prisma の統合ガイド](https://supabase.com/docs/guides/integrations/prisma)
+
+---
+
+## スキーマ設計に関する注意事項
+
+### 金額フィールド (amount) について
+
+現在のスキーマでは、Transaction モデルの `amount` フィールドに `Int` 型を使用しています。これは整数値（例：円単位）で金額を扱うことを想定した設計です。
+
+```prisma
+amount       Int
+```
+
+**この設計の特徴**:
+- ✅ シンプルで高速な計算
+- ✅ 円単位など、小数点以下が不要な通貨に最適
+- ⚠️ 小数点以下の精度が必要な場合（例：為替計算、税率計算）は考慮が必要
+
+**将来的に小数点精度が必要になった場合**、以下のように Decimal 型に変更することを検討してください：
+
+```prisma
+amount       Decimal       @db.Decimal(10,2)
+```
+
+### npm スクリプトについて
+
+package.json の `prisma:migrate` スクリプトは初期マイグレーション用に設計されています：
+
+```json
+"prisma:migrate": "prisma migrate dev --name init"
+```
+
+**使用方法**:
+- 初回のマイグレーション: `npm run prisma:migrate`
+- 2回目以降のマイグレーション: `npx prisma migrate dev --name <descriptive_name>`
+
+初回以降は、変更内容を説明する適切な名前を指定してマイグレーションを作成してください。
 
 ---
 
