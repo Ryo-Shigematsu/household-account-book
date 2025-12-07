@@ -1,41 +1,41 @@
-name: Task / Work Item
-about: Use this template for any piece of work you will start. Define the goal, acceptance criteria, and steps so the process is visible in the repository history.
+name: タスク / 作業項目
+about: 作業を開始する前に必ずこのテンプレートを使用してIssueを起票してください。ゴール・受け入れ基準・実装ステップを明確にし、リポジトリの履歴として残します。
 
-# Summary
+# 概要
 
-(One-line summary of the task)
+（タスクの一行要約）
 
-# Background / Why
+# 背景・目的
 
-(Why this task is needed / context)
+（なぜこのタスクが必要か、背景や理由を記載）
 
-# Goal / Acceptance criteria
+# ゴール / 受け入れ基準
 
-- [ ] Acceptance criterion 1 (describe expected behavior)
-- [ ] Acceptance criterion 2
+- [ ] 受け入れ基準1（期待される動作を記載）
+- [ ] 受け入れ基準2
 
-# Implementation steps
+# 実装ステップ
 
-- [ ] Create branch: feature/<short-description>
-- [ ] Implement code
-- [ ] Add/Update tests
-- [ ] Run lint / typecheck / tests locally
-- [ ] Add migrations (if applicable)
-- [ ] Update docs / README
+- [ ] ブランチ作成: feature/<short-description>
+- [ ] コード実装
+- [ ] テストの追加・更新
+- [ ] ローカルでlint / 型チェック / テスト実行
+- [ ] マイグレーション追加（該当する場合）
+- [ ] ドキュメント・README更新
 
-# Test instructions
+# 動作確認手順
 
-(How to run the feature locally and verify it works)
+（機能をローカルで実行し、動作確認する手順を記載）
 
-# Related issues / PRs
+# 関連Issue / PR
 
-- Closes: # (reference issue number)
+- Closes: # （関連するIssue番号）
 - Related: 
 
-# Estimate (optional)
+# 見積（任意）
 
-(approx time or story points)
+（おおよその作業時間やストーリーポイント）
 
-# Notes
+# 備考
 
-(Any extra info, caveats, or links)
+（その他の情報、注意点、参考リンクなど）
