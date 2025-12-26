@@ -7,7 +7,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --ext .ts,.tsx",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "prisma:migrate": "prisma migrate dev --name init",
+    "prisma:generate": "prisma generate"
   },
   "repository": {
     "type": "git",
@@ -25,6 +27,10 @@
     "@typescript-eslint/parser": "^8.46.4",
     "eslint": "^9.39.1",
     "prettier": "^3.6.2",
+    "prisma": "^5.22.0",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0"
   }
 }
