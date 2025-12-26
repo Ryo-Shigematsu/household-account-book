@@ -45,3 +45,9 @@ npm run lint
 # 型チェック実行
 npm run type-check
 ```
+
+## ドキュメント
+
+- [データベース設計](./docs/database/README.  md)
+- [ローカル環境セットアップ](./docs/setup/local-setup. md)
+- [Staging環境セットアップ](./docs/setup/staging-setup. md)
