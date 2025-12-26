@@ -20,6 +20,7 @@
 
 - **Node.js** (v18 以上推奨)
 - **npm** (Node.js に付属)
+- **Docker** (ローカル開発用の PostgreSQL コンテナを起動するため)
 - **Prisma CLI** (`npm install` で自動的にインストールされます)
 - **Supabase アカウント** (本番環境用)
 
@@ -30,6 +31,49 @@ npm install
 ```
 
 これにより、`prisma` と `@prisma/client` が自動的にインストールされます。
+
+---
+
+## ローカル開発環境のセットアップ（Docker）
+
+ローカル開発では Docker で PostgreSQL コンテナを起動して使用します。
+
+### Docker コンテナの起動
+
+既にプロジェクトに含まれているコンテナを起動する場合：
+
+```bash
+docker start hab-staging-postgres
+```
+
+初めてコンテナを作成する場合：
+
+```bash
+docker run -d \
+  --name hab-staging-postgres \
+  -p 5433:5432 \
+  -e POSTGRES_USER=staging_user \
+  -e POSTGRES_PASSWORD=staging_pass \
+  -e POSTGRES_DB=hab_staging \
+  postgres:15
+```
+
+**ポイント**:
+- ホストの `5433` ポートをコンテナの `5432` ポートにマッピング
+- ユーザー名: `staging_user`、パスワード: `staging_pass`
+- データベース名: `hab_staging`
+
+### コンテナの状態確認
+
+```bash
+docker ps
+```
+
+### コンテナ内で psql を使う
+
+```bash
+docker exec -it hab-staging-postgres psql -U staging_user -d hab_staging
+```
 
 ---
 
@@ -47,9 +91,9 @@ cp .env.example .env
 
 プライマリデータベースへの接続文字列。
 
-**ローカル開発の例**：
+**ローカル開発の例（Docker コンテナを使用）**：
 ```
-DATABASE_URL="postgresql://postgres:password@localhost:5432/household_account_book"
+DATABASE_URL="postgresql://staging_user:staging_pass@localhost:5433/hab_staging"
 ```
 
 **Supabase の例**：
@@ -65,10 +109,12 @@ Prisma のマイグレーション機能が使用する一時的なデータベ�
 
 **重要**: Supabase に直接マイグレーションを実行する場合、Shadow Database の設定が必要です。
 
-**オプション 1: ローカルの PostgreSQL を使用**
+**オプション 1: ローカルの Docker コンテナを使用（推奨）**
 ```
-SHADOW_DATABASE_URL="postgresql://postgres:password@localhost:5432/household_account_book_shadow"
+SHADOW_DATABASE_URL="postgresql://staging_user:staging_pass@localhost:5433/hab_staging"
 ```
+
+**注意**: 開発環境では同じデータベースを shadow database として使用できます。
 
 **オプション 2: 別の Supabase プロジェクトを使用**
 ```
@@ -196,14 +242,14 @@ Shadow Database は、Prisma が開発時に使用する一時的なデータベ
 
 Supabase では、デフォルトで Shadow Database を作成する権限がないため、以下のいずれかの方法で対応します：
 
-**オプション 1: ローカル PostgreSQL を使用（推奨）**
+**オプション 1: ローカル Docker コンテナを使用（推奨）**
 
-開発時はローカルの PostgreSQL を使用し、本番環境は Supabase を使用：
+開発時はローカルの Docker コンテナを使用し、本番環境は Supabase を使用：
 
 ```bash
 # .env (開発用)
-DATABASE_URL="postgresql://postgres:password@localhost:5432/household_account_book"
-SHADOW_DATABASE_URL="postgresql://postgres:password@localhost:5432/household_account_book_shadow"
+DATABASE_URL="postgresql://staging_user:staging_pass@localhost:5433/hab_staging"
+SHADOW_DATABASE_URL="postgresql://staging_user:staging_pass@localhost:5433/hab_staging"
 ```
 
 **オプション 2: 別の Supabase プロジェクトを Shadow Database として使用**
@@ -278,6 +324,33 @@ Shadow Database の設定が正しくないか、権限がない可能性があ�
 ---
 
 ## スキーマ設計に関する注意事項
+
+### キャメルケース（Prisma）とスネークケース（DB）のマッピング
+
+本プロジェクトでは、TypeScript/Prisma 側では `camelCase`、PostgreSQL 側では `snake_case` を使用する設計になっています。
+
+**Prisma スキーマでの実装例**：
+```prisma
+model User {
+  id           String        @id @db.Uuid
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt      @map("updated_at")
+  deletedAt    DateTime?                     @map("deleted_at")
+
+  @@map("users")
+}
+```
+
+**特徴**:
+- ✅ TypeScript コードでは `user.createdAt` のようにキャメルケースでアクセス
+- ✅ DB 上のテーブル名は `users`、カラム名は `created_at` などスネークケース
+- ✅ `@map("column_name")` でフィールド名をマッピング
+- ✅ `@@map("table_name")` でテーブル名をマッピング
+
+**メリット**:
+- TypeScript の慣習に従ったコード（キャメルケース）
+- PostgreSQL のベストプラクティスに従ったDB設計（スネークケース）
+- 引用符なしで SQL を記述可能（PostgreSQL では大文字小文字の扱いが複雑になるため）
 
 ### 金額フィールド (amount) について
 
