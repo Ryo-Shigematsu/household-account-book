@@ -1,16 +1,10 @@
-// prisma/schema.prisma
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
-enum CategoryType {
-  income
-  expense
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -18,8 +12,8 @@ model User {
   name         String?
   email        String?       @unique
   createdAt    DateTime      @default(now()) @map("created_at")
-  updatedAt    DateTime      @updatedAt      @map("updated_at")
-  deletedAt    DateTime?                     @map("deleted_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  deletedAt    DateTime?     @map("deleted_at")
   categories   Category[]
   transactions Transaction[]
 
@@ -30,33 +24,36 @@ model Category {
   id           Int           @id @default(autoincrement())
   name         String
   type         CategoryType
-  userId       String        @db.Uuid       @map("user_id")
-  user         User          @relation(fields: [userId], references: [id])
+  userId       String        @map("user_id") @db.Uuid
   createdAt    DateTime      @default(now()) @map("created_at")
-  updatedAt    DateTime      @updatedAt      @map("updated_at")
-  deletedAt    DateTime?                     @map("deleted_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  deletedAt    DateTime?     @map("deleted_at")
+  user         User          @relation(fields: [userId], references: [id])
   transactions Transaction[]
 
   @@index([userId])
-
   @@map("categories")
 }
 
 model Transaction {
-  id           Int           @id @default(autoincrement())
-  userId       String        @db.Uuid       @map("user_id")
-  user         User          @relation(fields: [userId], references: [id])
-  categoryId   Int?                          @map("category_id")
-  category     Category?     @relation(fields: [categoryId], references: [id])
-  amount       Int
-  memo         String?
-  date         DateTime
-  createdAt    DateTime      @default(now()) @map("created_at")
-  updatedAt    DateTime      @updatedAt      @map("updated_at")
-  deletedAt    DateTime?                     @map("deleted_at")
+  id         Int       @id @default(autoincrement())
+  userId     String    @map("user_id") @db.Uuid
+  categoryId Int?      @map("category_id")
+  amount     Int
+  memo       String?
+  date       DateTime
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+  deletedAt  DateTime? @map("deleted_at")
+  category   Category? @relation(fields: [categoryId], references: [id])
+  user       User      @relation(fields: [userId], references: [id])
 
   @@index([userId, date])
   @@index([categoryId])
-
   @@map("transactions")
+}
+
+enum CategoryType {
+  income
+  expense
 }
