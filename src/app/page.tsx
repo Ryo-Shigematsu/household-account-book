@@ -9,9 +9,7 @@ export default function Home() {
       <div className="max-w-4xl mx-auto space-y-8">
         {/* ヒーローセクション */}
         <section className="text-center space-y-4 py-12">
-          <h1 className="text-4xl font-bold tracking-tight">
-            シンプルで透明性のある家計簿
-          </h1>
+          <h1 className="text-4xl font-bold tracking-tight">シンプルで透明性のある家計簿</h1>
           <p className="text-xl text-muted-foreground">
             収支を記録し、カテゴリ別に分析。家計の見える化を実現します。
           </p>
@@ -20,7 +18,9 @@ export default function Home() {
               <Button size="lg">今すぐ始める</Button>
             </Link>
             <Link href="/about">
-              <Button size="lg" variant="outline">詳しく見る</Button>
+              <Button size="lg" variant="outline">
+                詳しく見る
+              </Button>
             </Link>
           </div>
         </section>
@@ -30,9 +30,7 @@ export default function Home() {
           <Card>
             <CardHeader>
               <CardTitle>📝 簡単記録</CardTitle>
-              <CardDescription>
-                収入・支出を数クリックで記録
-              </CardDescription>
+              <CardDescription>収入・支出を数クリックで記録</CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground">
@@ -44,9 +42,7 @@ export default function Home() {
           <Card>
             <CardHeader>
               <CardTitle>📊 カテゴリ分析</CardTitle>
-              <CardDescription>
-                支出をカテゴリ別に可視化
-              </CardDescription>
+              <CardDescription>支出をカテゴリ別に可視化</CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground">
@@ -58,9 +54,7 @@ export default function Home() {
           <Card>
             <CardHeader>
               <CardTitle>🔒 安全管理</CardTitle>
-              <CardDescription>
-                データは安全に保管
-              </CardDescription>
+              <CardDescription>データは安全に保管</CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground">
