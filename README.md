@@ -27,6 +27,7 @@ CI/CDと型安全な開発プロセスを採用し、ポートフォリオとし
 ### 開発ツール
 - **Linter**: ESLint (Flat Config, v9対応)
 - **Formatter**: Prettier
+- **テスト**: Jest (ユニットテスト) + Playwright (E2Eテスト)
 - **CI/CD**: GitHub Actions
 - **バージョン管理**: Git + GitHub
 
@@ -35,8 +36,10 @@ CI/CDと型安全な開発プロセスを採用し、ポートフォリオとし
 ## 📘 開発プロセスの特徴
 
 - GitHub Issues を活用してタスクを管理
-- CI/CD による自動品質チェック（Lint + 型チェック）
+- CI/CD による自動品質チェック（Lint + 型チェック + テスト）
+- 4つの独立したCIジョブ（Lint & Type Check, Unit Tests, Build Check, E2E Tests）
 - ESLint v9 の Flat Config に対応済み
+- 自動テストによる品質保証とリグレッション防止
 - プロセスを透明化し、ポートフォリオとしての説得力を強化
 
 ---
@@ -107,6 +110,26 @@ npx tailwindcss init -p
 - 新しいライブラリ導入時は公式ドキュメントの "Prerequisites" を事前確認
 - セットアップ手順を Issue や README に記録し、ナレッジを蓄積
 
+### テスト環境の構築（Phase 2, Issue #25）
+- **導入日**: 2026-01-31
+- **技術**: Jest + Playwright + GitHub Actions
+- **実施内容**:
+  - ユニットテスト環境の構築（Jest + Testing Library）
+  - E2Eテスト環境の構築（Playwright）
+  - CI/CDパイプラインの4つのジョブ分離
+    - Lint & Type Check
+    - Unit Tests
+    - Build Check
+    - E2E Tests
+  - npm キャッシュとアーティファクト保存による効率化
+  - developブランチもCI対象に追加
+
+#### ✅ 達成した成果
+- 自動テストによる品質保証の実現
+- バグの早期発見とリグレッション防止
+- CI/CDパイプラインの高速化と効率化
+- テスト結果の可視化（7日間保存）
+
 ---
 
 ## ⚙️ セットアップ方法
@@ -126,6 +149,24 @@ npm run lint
 
 # 型チェック実行
 npm run type-check
+
+# ユニットテスト実行
+npm test
+
+# ユニットテスト (watchモード)
+npm run test:watch
+
+# テストカバレッジ表示
+npm run test:coverage
+
+# E2Eテスト実行
+npm run test:e2e
+
+# E2Eテスト (UIモード)
+npm run test:e2e:ui
+
+# ビルド実行
+npm run build
 ```
 
 ---

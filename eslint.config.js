@@ -37,6 +37,16 @@ export default [
         HTMLTableRowElement: "readonly",
         HTMLTableCellElement: "readonly",
         HTMLTableCaptionElement: "readonly",
+        // Jest globals
+        describe: "readonly",
+        it: "readonly",
+        expect: "readonly",
+        test: "readonly",
+        beforeEach: "readonly",
+        afterEach: "readonly",
+        beforeAll: "readonly",
+        afterAll: "readonly",
+        jest: "readonly",
       },
     },
     plugins:  {
