@@ -13,10 +13,17 @@ const config = {
   // セットアップファイル
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   
-  // テスト対象のファイルパターン
+  // テスト対象のファイルパターン（*.test.* のみ）
   testMatch: [
     '**/__tests__/**/*.[jt]s?(x)',
-    '**/?(*.)+(spec|test).[jt]s?(x)',
+    '**/?(*.)+(test).[jt]s?(x)',
+  ],
+  
+  // テスト対象外のパス
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/.next/',
+    '/e2e/',
   ],
   
   // カバレッジ対象外
@@ -24,6 +31,7 @@ const config = {
     '/node_modules/',
     '/.next/',
     '/coverage/',
+    '/e2e/',
   ],
   
   // モジュール名のエイリアス（tsconfig.jsonと合わせる）
