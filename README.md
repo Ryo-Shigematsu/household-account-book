@@ -27,8 +27,11 @@ CI/CDと型安全な開発プロセスを採用し、ポートフォリオとし
 ### 開発ツール
 - **Linter**: ESLint (Flat Config, v9対応)
 - **Formatter**: Prettier
+- **テスト**: Jest + React Testing Library
+- **E2Eテスト**: Playwright
 - **CI/CD**: GitHub Actions
 - **バージョン管理**: Git + GitHub
+- **ホスティング**: Vercel
 
 ---
 
@@ -36,6 +39,8 @@ CI/CDと型安全な開発プロセスを採用し、ポートフォリオとし
 
 - GitHub Issues を活用してタスクを管理
 - CI/CD による自動品質チェック（Lint + 型チェック）
+- CI/CDによる自動テスト（Unit/Component/E2E）
+- Prismaキャッシュ最適化によるCI高速化
 - ESLint v9 の Flat Config に対応済み
 - プロセスを透明化し、ポートフォリオとしての説得力を強化
 
@@ -126,6 +131,12 @@ npm run lint
 
 # 型チェック実行
 npm run type-check
+
+# テスト実行
+npm run test
+
+# E2Eテスト実行
+npm run test:e2e
 ```
 
 ---
