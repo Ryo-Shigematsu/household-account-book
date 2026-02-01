@@ -12,6 +12,13 @@ export default [
       "build/**",
       "*.config.js",
       "*.config.ts",
+      "**/*.test.ts",
+      "**/*.test.tsx",
+      "**/*.spec.ts",
+      "**/*.spec.tsx",
+      "e2e/**",
+      "jest.setup.cjs",
+      "jest.config.cjs",
     ],
   },
   {
