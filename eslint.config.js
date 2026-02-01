@@ -1,6 +1,7 @@
 import js from "@eslint/js";
 import typescript from "@typescript-eslint/eslint-plugin";
 import typescriptParser from "@typescript-eslint/parser";
+import globals from "globals";
 
 export default [
   js.configs.recommended,
@@ -21,28 +22,25 @@ export default [
       parserOptions: {
         ecmaVersion: "latest",
         sourceType: "module",
-        ecmaFeatures:  {
+        ecmaFeatures: {
           jsx: true,
         },
       },
       globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.es2021,
         React: "readonly",
         JSX: "readonly",
-        HTMLElement: "readonly",
-        HTMLDivElement: "readonly",
-        HTMLButtonElement: "readonly",
-        HTMLInputElement: "readonly",
-        HTMLTableElement: "readonly",
-        HTMLTableSectionElement: "readonly",
-        HTMLTableRowElement: "readonly",
-        HTMLTableCellElement: "readonly",
-        HTMLTableCaptionElement: "readonly",
+        process: "readonly",
+        console: "readonly",
+        global: "readonly",
       },
     },
-    plugins:  {
+    plugins: {
       "@typescript-eslint": typescript,
     },
-    rules:  {
+    rules: {
       "semi": ["error", "always"],
       "quotes": ["error", "double"],
       "@typescript-eslint/no-unused-vars": "warn",
@@ -52,6 +50,7 @@ export default [
     files: ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx"],
     languageOptions: {
       globals: {
+        ...globals.jest,
         describe: "readonly",
         it: "readonly",
         test: "readonly",
@@ -60,7 +59,6 @@ export default [
         afterEach: "readonly",
         beforeAll: "readonly",
         afterAll: "readonly",
-        jest: "readonly",
       },
     },
   },
